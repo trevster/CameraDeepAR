@@ -251,6 +251,7 @@ public class CameraDeepArView implements PlatformView,
         }
         else  if ("stopVideoRecording".equals(methodCall.method)) {
               deepAR.stopVideoRecording();
+            MediaScannerConnection.scanFile(context, new String[]{videoFile.toString()}, null, null);
             result.success("Video Recording Stopped");
         }
         else  if ("snapPhoto".equals(methodCall.method)) {
