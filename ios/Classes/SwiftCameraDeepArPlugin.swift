@@ -483,6 +483,14 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         let destination = URL(fileURLWithPath: String(format: "%@/%@", documentsDirectory, last))
         var dict: [String: String] = [String:String]()
         dict["path"] = destination.absoluteString
+
+        PHPhotoLibrary.shared().performChanges {
+            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: destination)
+        } completionHandler: {saved, error in
+            self.channel.invokeMethod("onVideoRecordingComplete", arguments: error)
+            return
+        }
+
         channel.invokeMethod("onVideoRecordingComplete", arguments: dict)
         
     }

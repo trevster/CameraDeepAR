@@ -245,13 +245,53 @@ public class CameraDeepArView implements PlatformView,
         }
         else  if ("startVideoRecording".equals(methodCall.method)) {
             CharSequence now = DateFormat.format("yyyy_MM_dd_hh_mm_ss", new Date());
-             videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/DeepAR_" + now + ".mp4");
-            deepAR.startVideoRecording(videoFile.getPath());
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                fileName = "DeepAR_" + now;
+//                Uri collection = MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
+//                values = new ContentValues();
+//                values.put(MediaStore.Video.Media.DISPLAY_NAME, fileName);
+//                values.put(MediaStore.Video.Media.TITLE, fileName);
+//                values.put(MediaStore.Video.Media.RELATIVE_PATH, "Movies/Foodoo");
+//                values.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
+//                values.put(MediaStore.Video.Media.IS_PENDING, 1);
+//                ContentResolver resolver = context.getContentResolver();
+//                uri = resolver.insert(collection, values);
+//                OutputStream stream = null;
+//                if (uri != null) {
+//                    try {
+//                        stream = resolver.openOutputStream(uri);
+//                        if (stream != null) deepAR.startVideoRecording(collection + "Movies/Foodoo");
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                    finally {
+//                        if (stream != null) {
+//                            try {
+//                                stream.close();
+//                            } catch (IOException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    }
+//
+                videoFile = new File(context.getCacheDir() + "/DeepAR_" + now + ".mp4");
+                deepAR.startVideoRecording(videoFile.getPath());
+            } else {
+                videoFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES) + "/DeepAR_" + now + ".mp4");
+                deepAR.startVideoRecording(videoFile.getPath());
+            }
             result.success("Video Recording Started");
         }
         else  if ("stopVideoRecording".equals(methodCall.method)) {
             deepAR.stopVideoRecording();
-            MediaScannerConnection.scanFile(context, new String[]{videoFile.toString()}, null, null);
+            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                values.clear();
+//                values.put(MediaStore.Video.Media.IS_PENDING, 0);
+//                context.getContentResolver().update(uri, values, null, null);
+                MediaScannerConnection.scanFile(context, new String[]{videoFile.toString()}, null, null);
+            } else {
+                MediaScannerConnection.scanFile(context, new String[]{videoFile.toString()}, null, null);
+            }
             result.success("Video Recording Stopped");
         }
         else  if ("snapPhoto".equals(methodCall.method)) {
