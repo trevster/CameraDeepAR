@@ -13,6 +13,7 @@ import android.graphics.Rect;
 import android.hardware.Camera;
 import android.media.Image;
 import android.media.MediaScannerConnection;
+import android.os.Build;
 import android.os.Environment;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
