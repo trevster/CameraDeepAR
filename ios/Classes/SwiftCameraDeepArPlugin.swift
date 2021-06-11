@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import DeepAR
+import Photos
 
 public class SwiftCameraDeepArPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
