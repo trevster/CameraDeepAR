@@ -473,7 +473,7 @@ public class DeepArCameraView : NSObject,FlutterPlatformView,DeepARDelegate{
         currentRecordingMode = .lowQualityVideo
     }
     
-    public func didFinishPreparingForVideoRecording() { }
+    func didFinishPreparingForVideoRecording() { }
     
     public func didStartVideoRecording() { }
     
